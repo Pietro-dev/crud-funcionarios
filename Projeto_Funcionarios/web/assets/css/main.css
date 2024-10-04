@@ -38,5 +38,13 @@ nav ul li span:hover{
 }
 
 .modal-backdrop {
-    z-index: 1040;  
+    z-index: 1040; 
+}
+
+.btn-close {
+    filter: invert(100%); /* Isso muda a cor do ícone de "X" para branco */
+}
+
+.form-control {
+    background-color: #cccccc;
 }

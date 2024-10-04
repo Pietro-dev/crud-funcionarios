@@ -29,19 +29,91 @@
         </div>
         <!-- Modal create funcionario -->
         <div class="modal fade" id="modal_create_funcionario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content bg-dark text-white">
                     <div class="modal-header text-white">
                         <h5 class="modal-title" id="exampleModalLabel">Cadastrar Funcionário</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <!-- Your modal content here -->
-                        texto exemplo
+                        <div class="container">
+                            <div class="row">
+                                <div class="">
+                                    <span>Nome: </span>
+                                </div>
+                                 <div class="mt-2">
+                                     <input type="text" class="form-control" placeholder="nome completo" id="nome">
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="">
+                                    <span>Cargo: </span>
+                                </div>
+                                 <div class=" mt-2">
+                                     <input type="text" class="form-control" placeholder="supervisor, analista, desenvolvedor..." id="cargo">
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="">
+                                    <span>Data de Admissão: </span>
+                                </div>
+                                 <div class=" mt-2">
+                                     <input type="text" class="form-control" placeholder="dd/mm/yyyy" id="data_admissao">
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="">
+                                    <span>Salário: </span>
+                                </div>
+                                 <div class=" mt-2">
+                                     <input type="text" class="form-control" placeholder="1000.00" id="salario">
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="">
+                                    <span>Departamento: </span>
+                                </div>
+                                 <div class="mt-2">
+                                     <input type="text" class="form-control" placeholder="TI, RH..." id="departamento">
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="">
+                                    <span>E-mail: </span>
+                                </div>
+                                 <div class="mt-2">
+                                     <input type="email" class="form-control" placeholder="TI, RH..." id="email">
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="">
+                                    <span>Telefone: </span>
+                                </div>
+                                 <div class="mt-2">
+                                     <input type="tel" class="form-control" placeholder="1198765432" id="telefone">
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="">
+                                    <span>Endereço: </span>
+                                </div>
+                                 <div class="mt-2">
+                                     <input type="text" class="form-control" placeholder="Rua xyz, nº 100, SP - Mogi das Cruzes" id="endereco">
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="">
+                                    <span>Data de Nascimento: </span>
+                                </div>
+                                 <div class="mt-2">
+                                     <input type="text" class="form-control custom-input" placeholder="dd/mm/yyyy" id="data_nascimento">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                        <button type="button" class="btn btn-success">Cadastrar</button>
+                        <button type="button" class="btn btn-success" id="btn_create_funcionario">Cadastrar</button>
                     </div>
                 </div>
             </div>

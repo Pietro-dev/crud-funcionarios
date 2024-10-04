@@ -1,5 +1,6 @@
 $(document).ready(function () {
     callGetAllFuncionarios();
+    createFuncionario();
 });
 
 function getAllFuncionarios() {
@@ -76,5 +77,47 @@ function tableFuncionarios(data) {
     divFuncionarios.html(div);
 }
 
-
-    
+// criar funcionario
+function createFuncionario(){
+    $(document).on("click", "#btn_create_funcionario", function(){
+        var nome = $("#nome").val();
+        var cargo = $("#cargo").val();
+        var data_admissao = $("#data_admissao ").val();
+        var salario = $("#salario").val();
+        var departamento = $("#departamento").val();
+        var email = $("#email").val();
+        var telefone = $("#telefone").val();
+        var endereco = $("#endereco").val();
+        var data_nascimento = $("#data_nascimento").val();
+        
+        var novoFuncionario = {
+            nome: nome,
+            cargo: cargo,
+            data_admissao: data_admissao,
+            salario: salario,
+            departamento: departamento,
+            email: email,
+            telefone: telefone,
+            endereco: endereco,
+            data_nascimento: data_nascimento
+        };
+        
+        $.ajax({
+            url: "/FuncionarioController",
+            type: "POST",
+            data: JSON.stringify(novoFuncionario),
+            contentType: "application/json",
+            success: function (response) {
+            if (response.success) {
+              alert("Funcionário cadastrado com sucesso!");
+            } else {
+              alert("Erro ao cadastrar funcionário: " + response.message);
+            }
+            },
+            error: function (err) {
+            console.error("Erro ao enviar a requisição:", err);
+            alert("Ocorreu um erro");
+          }
+        });
+    });
+};

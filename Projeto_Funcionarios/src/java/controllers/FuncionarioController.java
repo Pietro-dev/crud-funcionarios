@@ -4,10 +4,14 @@
  */
 package controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dao.DaoFuncionario;
+import models.FuncionarioModel;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,7 +24,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "FuncionarioController", urlPatterns = {"/FuncionarioController","/GetAllFuncionarios"})
 public class FuncionarioController extends HttpServlet {
-
+    
+    private final ObjectMapper mapper = new ObjectMapper();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -73,10 +78,45 @@ public class FuncionarioController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
+            processRequest(request, response);
             String nome = request.getParameter("nome");
-            
+            String cargo = request.getParameter("cargo");
+            String data_admissao = request.getParameter("data_admissao");
+            String salario = request.getParameter("salario");
+            String departamento = request.getParameter("departamento");
+            String email = request.getParameter("email");
+            String telefone = request.getParameter("telefone");
+            String endereco = request.getParameter("endereco");
+            String data_nascimento = request.getParameter("data_nascimento");
+
+            FuncionarioModel funcModel = new FuncionarioModel();
+            funcModel.setNome(nome);
+            funcModel.setCargo(cargo);
+            funcModel.setDataAdmissao(data_admissao);
+            funcModel.setSalario(Double.parseDouble(salario));
+            funcModel.setDepartamento(departamento);
+            funcModel.setEmail(email);
+            funcModel.setTelefone(Integer.parseInt(telefone));
+            funcModel.setEndereco(endereco);
+            funcModel.setDataNascimento(data_nascimento);
+
             PrintWriter out = response.getWriter();
-            out.print("O meu nome é: "+nome);
+            DaoFuncionario daoFunc = new DaoFuncionario();
+            boolean isCreated = daoFunc.createFuncionario(funcModel);
+            
+            Map<String, Object> responseMap = new HashMap<>();
+            responseMap.put("success", isCreated);
+            if (isCreated) {
+              responseMap.put("message", "Funcionário cadastrado com sucesso!");
+            } else {
+              responseMap.put("message", "Erro ao cadastrar funcionário");
+            }
+            try {
+            daoFunc.createFuncionario(funcModel); // Chame o método para salvar
+            out.print(mapper.writeValueAsString("Funcionário cadastrado com sucesso!!!"));
+            } catch (JsonProcessingException e) {
+                out.print(mapper.writeValueAsString("Erro ao cadastrar funcionário: " + e.getMessage()));
+            }
     }
 
     /**
