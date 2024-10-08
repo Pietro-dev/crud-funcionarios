@@ -19,7 +19,7 @@ public class FuncionarioModel {
     private double salario;
     private String departamento;
     private String email;
-    private int telefone;
+    private String telefone;
     private String endereco;
     private String dataNascimento;
     private Timestamp createdAt;
@@ -127,14 +127,14 @@ public class FuncionarioModel {
     /**
      * @return the telefone
      */
-    public int getTelefone() {
+    public String getTelefone() {
         return telefone;
     }
 
     /**
      * @param telefone the telefone to set
      */
-    public void setTelefone(int telefone) {
+    public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
 

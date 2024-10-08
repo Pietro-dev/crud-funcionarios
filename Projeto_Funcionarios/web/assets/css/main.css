@@ -48,3 +48,11 @@ nav ul li span:hover{
 .form-control {
     background-color: #cccccc;
 }
+
+#edit_id{
+    background-color: #cccccc;
+}
+
+.update-input{
+    background-color: #fff;
+}

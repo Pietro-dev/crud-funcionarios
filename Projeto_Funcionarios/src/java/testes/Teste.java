@@ -45,7 +45,7 @@ public class Teste {
         funcModel.setSalario(5000.00);
         funcModel.setDepartamento("RH");
         funcModel.setEmail("pedro@email.com");
-        funcModel.setTelefone(123456789);
+        funcModel.setTelefone("123456789");
         funcModel.setEndereco("Rua 123, Cidade XYZ");
         funcModel.setDataNascimento("01/01/1990");
         

@@ -39,7 +39,7 @@ public class DaoFuncionario {
                 funcModel.setSalario(rs.getDouble("salario"));
                 funcModel.setDepartamento(rs.getString("departamento"));
                 funcModel.setEmail(rs.getString("email"));
-                funcModel.setTelefone(rs.getInt("telefone"));
+                funcModel.setTelefone(rs.getString("telefone"));
                 funcModel.setEndereco(rs.getString("endereco"));
                 funcModel.setDataNascimento(rs.getString("data_nascimento"));
                 funcModel.setCreatedAt(rs.getTimestamp("created_at"));
@@ -57,10 +57,13 @@ public class DaoFuncionario {
     
     public boolean createFuncionario(FuncionarioModel funcModel){
         Conexao conexao = new Conexao();
-        Connection conn = conexao.conexao();
+        Connection conn = null;
         PreparedStatement ps = null;
         boolean isSuccess = false;
+        
         try {
+            conn = conexao.conexao();
+            
             String querySql = "INSERT INTO funcionarios (nome, cargo, data_admissao, salario, departamento, email, telefone, endereco, data_nascimento) values(?,?,?,?,?,?,?,?,?)";
             ps = conn.prepareStatement(querySql);
             ps.setString(1, funcModel.getNome());
@@ -69,15 +72,149 @@ public class DaoFuncionario {
             ps.setDouble(4, funcModel.getSalario());
             ps.setString(5, funcModel.getDepartamento());
             ps.setString(6, funcModel.getEmail());
-            ps.setInt(7, funcModel.getTelefone());
+            ps.setString(7, funcModel.getTelefone());
             ps.setString(8, funcModel.getEndereco());
             ps.setString(9, funcModel.getDataNascimento());
             
-            
+            int rowsAffected = ps.executeUpdate();
+            isSuccess = (rowsAffected > 0);
         } catch (SQLException e) {
-            System.err.println(e.getMessage());
+            System.err.println("Erro ao inserir funcionário: " + e.getMessage());
             return false;
+        } finally {
+            // Fecha os recursos
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                System.err.println("Erro ao fechar os recursos: " + e.getMessage());
+            }
         }
-        return true;
+        
+        return isSuccess;
     }
+    
+    public boolean deleteFuncionario(int id) {
+        Conexao conexao = new Conexao();
+        Connection conn = conexao.conexao();
+        PreparedStatement ps = null;
+        boolean isSuccess = false;
+
+        try {
+            String querySql = "DELETE FROM funcionarios WHERE id = ?";
+            ps = conn.prepareStatement(querySql);
+            ps.setInt(1, id);
+
+            int rowsAffected = ps.executeUpdate();
+
+            if (rowsAffected > 0) {
+                isSuccess = true;
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Erro ao deletar funcionário: " + e.getMessage());
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                System.err.println("Erro ao fechar conexão: " + e.getMessage());
+            }
+        }
+
+        return isSuccess;
+    }
+    
+    public boolean updateFuncionario(FuncionarioModel funcModel) {
+    Conexao conexao = new Conexao();
+    Connection conn = conexao.conexao();
+    PreparedStatement ps = null;
+    boolean isSuccess = false;
+
+    try {
+        String querySql = "UPDATE funcionarios SET nome=?, cargo=?, data_admissao=?, salario=?, departamento=?, email=?, telefone=?, endereco=?, data_nascimento=? WHERE id=?";
+        ps = conn.prepareStatement(querySql);
+        ps.setString(1, funcModel.getNome());
+        ps.setString(2, funcModel.getCargo());
+        ps.setString(3, funcModel.getDataAdmissao());
+        ps.setDouble(4, funcModel.getSalario());
+        ps.setString(5, funcModel.getDepartamento());
+        ps.setString(6, funcModel.getEmail());
+        ps.setString(7, funcModel.getTelefone());
+        ps.setString(8, funcModel.getEndereco());
+        ps.setString(9, funcModel.getDataNascimento());
+        ps.setInt(10, funcModel.getId()); // Certifique-se de que o ID está definido no modelo
+
+        int rowsAffected = ps.executeUpdate();
+        isSuccess = (rowsAffected > 0);
+    } catch (SQLException e) {
+        System.err.println("Erro ao atualizar: " + e.getMessage());
+    } finally {
+        try {
+            if (ps != null) ps.close();
+            if (conn != null) conn.close();
+        } catch (SQLException e) {
+            System.err.println("Erro ao fechar conexão: " + e.getMessage());
+        }
+    }
+
+    return isSuccess;
+}
+    
+    public FuncionarioModel getFuncionarioById(int id) {
+        FuncionarioModel funcModel = null;
+        Conexao conexao = new Conexao();
+        Connection conn = conexao.conexao();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            String querySql = "SELECT * FROM funcionarios WHERE id = ?";
+            ps = conn.prepareStatement(querySql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                funcModel = new FuncionarioModel();
+                funcModel.setId(rs.getInt("id"));
+                funcModel.setNome(rs.getString("nome"));
+                funcModel.setCargo(rs.getString("cargo"));
+                funcModel.setDataAdmissao(rs.getString("data_admissao"));
+                funcModel.setSalario(rs.getDouble("salario"));
+                funcModel.setDepartamento(rs.getString("departamento"));
+                funcModel.setEmail(rs.getString("email"));
+                funcModel.setTelefone(rs.getString("telefone"));
+                funcModel.setEndereco(rs.getString("endereco"));
+                funcModel.setDataNascimento(rs.getString("data_nascimento"));
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar funcionário: " + e.getMessage());
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                System.err.println("Erro ao fechar conexão: " + e.getMessage());
+            }
+        }
+
+        return funcModel;
+    }
+
 }
