@@ -1,1 +1,8 @@
-# CRUD WEB em Java com MVC, DAO e Servlet
+# CRUD WEB em Java
+## Tecnologias Utilizadas:
++ MySql;
++ Servlet;
++ JSP
+## Desing Patterns Usados:
++ MVC;
++ DAO
